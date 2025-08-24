@@ -1,0 +1,5 @@
+string[] ordering
+bool delivery
+---
+float64 time
+float64 price
