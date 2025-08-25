@@ -15,7 +15,7 @@ from customers import customers
 #the restaurant is going to recieve a listof strings and delivery bool
 #each string is going to contain 5 letters the first 3 are the objects name first 3 letter,4th is the size(s,m,l)
 #and the last one is going to be a number that is used to referto the topping 
-def ordhand(req,name):
+def ordhand(req):
     cost=0
     tm=0
     order=""
@@ -31,19 +31,16 @@ def ordhand(req,name):
         tm+=50
         cost+=30
     ret=orderResponse()
-    ret.order=name +" "+order
+    ret.order=order
     ret.time=tm
     ret.price=cost
-    customers.remove(name)
     #note i thimk the name should be removed after the order is delivered(after the action is completed)
     #but i will leave it here for now
     return ret
 
 
 def create_order_service(username):
-    def handler(req):
-        return ordhand(req,username)
-    rospy.service(username,order,handler)
+    rospy.service(username,order,ordhand)
     rospy.loginfo("order service ready")
 
   

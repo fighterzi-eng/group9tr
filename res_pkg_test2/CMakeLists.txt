@@ -5,6 +5,13 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  actionlib
+  actionlib_msgs
+)
+add_action_files(
+  DIRECTORY action
+  FILES
+  time.action
 )
 
 add_service_files(
@@ -17,8 +24,10 @@ add_service_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
+  actionlib
+  actionlib_msgs
 )
 
 catkin_package(
-  CATKIN_DEPENDS message_runtime rospy std_msgs
+  CATKIN_DEPENDS message_runtime rospy std_msgs actionlib actionlib_msgs
 )
