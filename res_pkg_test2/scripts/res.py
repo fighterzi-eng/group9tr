@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from scripts.feeder import food,main_dish,desert,snacks
+from res_pkg_test2.srv import requist,requistResponse
 from res_pkg_test2.srv import order ,orderResponse
 from customers import customers
 
@@ -19,10 +20,10 @@ def ordhand(req):
     cost=0
     tm=0
     order=""
-   
-    for l in req.ordering:
+    
+    for l in range(0,len(req.items)-1):
         meal=food.search()
-        meal.setsize(l[3])
+        meal.setsize(req.size[l])
         meal.settoping(l[4])
         cost+=meal.total_price()
         tm+=meal.timing_process()
@@ -36,25 +37,17 @@ def ordhand(req):
     ret.price=cost
     #note i thimk the name should be removed after the order is delivered(after the action is completed)
     #but i will leave it here for now
+
+    
     return ret
 
 
-def create_order_service(username):
-    rospy.service(username,order,ordhand)
-    rospy.loginfo("order service ready")
 
   
 
 if __name__=="__main__":
     rospy.init_node("cashier")
-    for n in customers:
-        create_order_service(n)
+    rospy.service('requist',requist,ordhand)
+    rospy.loginfo("order service ready")
     rospy.spin()
     #the action is going to be in a seperate node(later ,for nowlets check that what we have here works)
-
-
-
-  
-    
-
-

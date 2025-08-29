@@ -41,7 +41,7 @@ class food:
     @staticmethod
     def search(h):
         for item in food.items:
-            if item.name[0:3]==h:
+            if item.name==h:
                 return item
     
 
