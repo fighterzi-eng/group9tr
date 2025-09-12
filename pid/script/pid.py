@@ -95,7 +95,7 @@ while not rospy.is_shutdown():
     angular_cmd =angle
 
            
-    if dx < 0.01 and dy <0.01 and angle <0.1:
+    if dx < 0.01 and dy <0.01 and angle_error <0.1:
         linear_cmd = 0.0
         angular_cmd = 0.0
 
