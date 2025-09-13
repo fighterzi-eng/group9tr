@@ -93,9 +93,9 @@ class bot:
             move=self.anglepid.calc(val-self.getyaw(),dt)
             prevtime=timenow
             cmd=Twist()
-            cmd.angular.z=move
+            cmd.angular.z=checkval(move,2,-2)
             #warning:ni dont know the maximum values for the robot these are random values
-            pub.publish(checkval(cmd,2,-2))
+            pub.publish(cmd)
             rate.sleep()
         self.anglepid.reset()
 
@@ -107,16 +107,18 @@ class bot:
             move=self.movepid.calc(val-self.getfwd(),dt)
             prevtime=timenow
             cmd=Twist()
-            cmd.linear.x=move
+            cmd.linear.x=checkval(move,1,0)
             #warning:ni dont know the maximum values for the robot these are random values
-            pub.publish(checkval(cmd,1,0))
+            pub.publish(cmd)
             rate.sleep()
         self.movepid.reset()
     
     def scan(self):
         #put whichever device or way the robot uses to take images in the videocapure()parameter instead of zero
         cap = cv2.VideoCapture(0)
-        self.image= cap.read()
+        ret,frame= cap.read()
+        if ret==True:
+            self.image=frame
         right=False
         left=False
         
